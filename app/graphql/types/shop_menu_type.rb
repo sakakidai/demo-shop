@@ -1,18 +1,12 @@
 # frozen_string_literal: true
 
 module Types
-  class ShopType < Types::BaseObject
+  class ShopMenuType < Types::BaseObject
     field :id, ID, null: false
     field :name, String
-    field :main_photo_path, String
-    field :overview, String
+    field :price, Integer
+    field :shop_id, Integer, null: false
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
-
-    field :shop_menus, [ShopMenuType], null: true
-
-    def shop_menus
-      Loaders::ShopMenusLoader.for.load(object.id)
-    end
   end
 end
