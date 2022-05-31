@@ -12,7 +12,7 @@ module Types
     field :shop_menus, [ShopMenuType], null: true
 
     def shop_menus
-      Loaders::ShopMenusLoader.for.load(object.id)
+      Loaders::AssociationLoader.for(Shop, :shop_menus).load(object)
     end
   end
 end
