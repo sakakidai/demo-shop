@@ -10,17 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_29_015431) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_31_140519) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "shop_menu_photos", force: :cascade do |t|
+    t.bigint "shop_id", null: false
+    t.bigint "shop_menu_id", null: false
+    t.string "photo_path"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shop_id"], name: "index_shop_menu_photos_on_shop_id"
+    t.index ["shop_menu_id"], name: "index_shop_menu_photos_on_shop_menu_id"
+  end
+
   create_table "shop_menus", force: :cascade do |t|
+    t.bigint "shop_id", null: false
     t.string "name"
     t.integer "price"
-    t.bigint "shop_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["shop_id"], name: "index_shop_menus_on_shop_id"
+  end
+
+  create_table "shop_photos", force: :cascade do |t|
+    t.bigint "shop_id", null: false
+    t.string "photo_path"
+    t.text "comment"
+    t.boolean "is_published"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shop_id"], name: "index_shop_photos_on_shop_id"
   end
 
   create_table "shops", force: :cascade do |t|
@@ -31,5 +51,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_29_015431) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "shop_menu_photos", "shop_menus"
+  add_foreign_key "shop_menu_photos", "shops"
   add_foreign_key "shop_menus", "shops"
+  add_foreign_key "shop_photos", "shops"
 end
